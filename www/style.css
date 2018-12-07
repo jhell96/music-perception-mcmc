@@ -1,0 +1,203 @@
+body { 
+	margin-left:10%; 
+	margin-right:10%; 
+	margin-bottom:4em; 
+	font-family: Verdana; 
+}
+
+#structure { 
+	margin:0; 
+	border-collapse: collapse; 
+}
+
+#song {
+	width:80vw;
+	word-wrap: break-word;
+}
+
+#frequencies {
+	word-wrap: break-word;
+	width:80vw;
+}
+
+/* Dropdown Button */
+.dropbtn {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #79bbff), color-stop(1, #378de5));
+	background:-moz-linear-gradient(top, #79bbff 5%, #378de5 100%);
+	background:-webkit-linear-gradient(top, #79bbff 5%, #378de5 100%);
+	background:-o-linear-gradient(top, #79bbff 5%, #378de5 100%);
+	background:-ms-linear-gradient(top, #79bbff 5%, #378de5 100%);
+	background:linear-gradient(to bottom, #79bbff 5%, #378de5 100%);
+    background-color: #79bbff;
+    color: white;
+    padding: 16px;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+    border-radius:6px;
+    border: none;
+    cursor: pointer;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #bbdaf7;
+    min-width: 50px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 6px 6px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #bbdaf7}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    background-color: #bbdaf7;
+}
+/*
+#freq {
+	width:40px;
+	height:25px;
+	border-color:blue;
+	border-style: solid;
+	word-wrap: break-word;
+}
+*/
+.button {
+	-moz-box-shadow:inset 0px 1px 0px 0px #bbdaf7;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #bbdaf7;
+	box-shadow:inset 0px 1px 0px 0px #bbdaf7;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #79bbff), color-stop(1, #378de5));
+	background:-moz-linear-gradient(top, #79bbff 5%, #378de5 100%);
+	background:-webkit-linear-gradient(top, #79bbff 5%, #378de5 100%);
+	background:-o-linear-gradient(top, #79bbff 5%, #378de5 100%);
+	background:-ms-linear-gradient(top, #79bbff 5%, #378de5 100%);
+	background:linear-gradient(to bottom, #79bbff 5%, #378de5 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#79bbff', endColorstr='#378de5',GradientType=0);
+	background-color:#79bbff;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #84bbf3;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #528ecc;
+}
+/*
+#delete {
+	width:55px;
+	height:25px;
+	border-color:blue;
+	border-style: solid;
+	word-wrap: break-word;
+}
+#playback {
+	width:80px;
+	height:25px;
+	border-color:blue;
+	border-style: solid;
+	word-wrap: break-word;
+}
+
+#save {
+	width:40px;
+	height:25px;
+	border-color:blue;
+	border-style: solid;
+	word-wrap: break-word;
+}*/
+
+nav { 
+	line-height: 2; 
+}
+
+nav a { 
+	white-space: nowrap; 
+}
+
+h2 { 
+	margin-top:2em; 
+}
+
+table.keyboard { 
+	border-width: 1px; 
+	border-collapse: collapse;
+  	margin: 0;
+}
+
+table.keyboard td { 
+	color:lightgray; 
+}
+
+table td.b1 { 
+	background-color: white; 
+	border-left:1px solid black; 
+	border-top:1px solid black;
+    text-align:center; 
+    vertical-align:top; 
+}
+
+table td.c1 { 
+	background-color: black;
+ 	border-top:1px solid black; 
+}
+
+table td.b2 { 
+	background-color: white; 
+	border-top:1px solid black;
+    text-align:center; 
+    vertical-align:top; 
+}
+
+table td.b3 { 
+	background-color: white; 
+	border-right:1px solid black; 
+	border-top:1px solid black;
+    text-align:center; 
+    vertical-align:top; 
+}
+
+table td.b25 { 
+	background-color: white; 
+	border-right:1px solid black; 
+	border-top:1px solid black;
+	text-align:center; 
+	vertical-align:top; 
+}
+
+table td.b { 
+	background-color: white;
+    color: gray; 
+    text-align:center; 
+    vertical-align:bottom;
+    border-left:1px solid black; 
+    border-right:1px solid black; 
+    border-bottom:1px solid black; 
+}
