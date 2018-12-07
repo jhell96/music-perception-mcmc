@@ -167,6 +167,8 @@ table td.b1 {
 table td.c1 { 
 	background-color: black;
  	border-top:1px solid black; 
+ 	text-align:center;
+ 	vertical-align:top;
 }
 
 table td.b2 { 

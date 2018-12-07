@@ -12,49 +12,51 @@ $(document).ready(function() {
 		if (document.activeElement.nodeName == 'TEXTAREA') return;
 		if (document.activeElement.nodeName == 'INPUT') return;
 
-		switch(e.keyCode) {
-			case 9: press(1); return false;
-			case 49: press(2); break; //1
-			case 81: press(3); break; //q
-			case 50: press(4); break; //2
-			case 87: press(5); break; //w
-			case 69: press(6); break; //e
-			case 52: press(7); break; //4
-			case 82: press(8); break; //r
-			case 53: press(9); break; //5
-			case 84: press(10); break; //t
-			case 54: press(11); break; //6
-			case 89: press(12); break; //y
-			case 85: press(13); break; //u
-			case 56: press(14); break; //8
-			case 73: press(15); break; //i
-			case 57: press(16); break; //9
-			case 79: press(17); break; //o
-			case 80: press(18); break; //p
-			case 189: press(19); break; //-
-			case 173: press(19); break; //-
-			case 219: press(20); break; //[
-			case 187: press(21); break;
-			case 61: press(21); break; //=
-			case 221: press(22); break; //]
-			case 8: press(23); return false; //backspace
-			case 13: press(24); break; //enter
-			case 220: press(25); break; //\
+		console.log(e.keyCode)
 
-			case 90: cdur(); break; //z
-			case 88: ddur(); break; //x
-			case 67: edur(); break; //c
-			case 86: fdur(); break; //v
-			case 66: gdur(); break; //b
-			case 78: adur(); break; //n
-			case 77: bdur(); break; //m
-			case 65: cmol(); break; //a
-			case 83: dmol(); break; //s
-			case 68: emol(); break; //d
-			case 70: fmol(); break; //f
-			case 71: gmol(); break; //g
-			case 72: amol(); break; //h
-			case 74: bmol(); break; 		
+		switch(e.keyCode) {
+			case 65: press(1); break; //a
+			case 87: press(2); break; //w
+			case 83: press(3); break; //s
+			case 69: press(4); break; //e
+			case 68: press(5); break; //d
+			case 70: press(6); break; //f
+			case 84: press(7); break; //t
+			case 71: press(8); break; //g
+			case 89: press(9); break; //y
+			case 72: press(10); break; //h
+			case 85: press(11); break; //u
+			case 74: press(12); break; //j
+			case 75: press(13); break; //k
+			case 79: press(14); break; //o
+			case 76: press(15); break; //l
+			case 80: press(16); break; //p
+			case 186: press(17); break; //;
+			case 222: press(18); break; //'
+			case 219: press(19); break; //[
+			// case 173: press(19); break; //-
+			// case 219: press(20); break; //[
+			// case 187: press(21); break;
+			// case 61: press(21); break; //=
+			// case 221: press(22); break; //]
+			// case 8: press(23); return false; //backspace
+			// case 13: press(24); break; //enter
+			// case 220: press(25); break; //\
+
+			// case 90: cdur(); break; //z
+			// case 88: ddur(); break; //x
+			// case 67: edur(); break; //c
+			// case 86: fdur(); break; //v
+			// case 66: gdur(); break; //b
+			// case 78: adur(); break; //n
+			// case 77: bdur(); break; //m
+			// case 65: cmol(); break; //a
+			// case 83: dmol(); break; //s
+			// case 68: emol(); break; //d
+			// case 70: fmol(); break; //f
+			// case 71: gmol(); break; //g
+			// case 72: amol(); break; //h
+			// case 74: bmol(); break; 		
 		}
 	}
 
@@ -75,8 +77,8 @@ $(document).ready(function() {
 	 		var bottomHalf = document.getElementById('bo'+x);
 	  		var topHalf = document.getElementById('to'+x);
 
-	  		bottomHalf.style.backgroundColor = 'lightgray';
-	  		topHalf.style.backgroundColor = 'lightgray';
+	  		bottomHalf.style.backgroundColor = 'lightblue';
+	  		topHalf.style.backgroundColor = 'lightblue';
 	 	} else {
 	  		var leftHalf = document.getElementById('l'+x);
 	  		var rightHalf = document.getElementById('r'+x);
@@ -88,7 +90,7 @@ $(document).ready(function() {
 
 	function press(x) {
 		$('#song').text(function(index, text) {
-			return text+(parseInt(x)+27)+",";
+			return text+(parseInt(x)+39)+",";
 		});
 
 		$('#frequencies').text(function(index, text) {
