@@ -90,6 +90,37 @@ def play_wav(filepath):
     p.terminate()
 
 
+def play_wav_data(wav_data):
+    wav_data = np.array(wav_data).astype(np.float32).tostring()
+
+    # define stream chunk
+    chunk = 1024
+    offset = 0
+
+    # instantiate PyAudio
+    p = pyaudio.PyAudio()
+    # open stream
+    stream = p.open(format=pyaudio.paFloat32,
+                    channels=1,
+                    rate=22050,
+                    output=True)
+    # read data
+    data = wav_data[offset:offset+chunk]
+
+    # play stream
+    while offset+chunk <= len(wav_data)-1:
+        stream.write(data)
+        offset += chunk
+        data = wav_data[offset:offset+chunk]
+
+    # stop stream
+    stream.stop_stream()
+    stream.close()
+
+    # close PyAudio
+    p.terminate()
+
+
 def get_directory_files(dirpath, file_ext=None):
     '''Return all files in a directory
     Inputs:
