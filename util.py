@@ -101,6 +101,7 @@ def get_directory_files(dirpath, file_ext=None):
 
 
 if __name__ == '__main__':
-    path = "/home/josh/Music/cant_sleep_love_pentatonix.wav"
+    # path = "/home/josh/Music/cant_sleep_love_pentatonix.wav"
+    path = "/home/josh/Documents/school/senior/6.804/project/music-perception-mcmc/resources/keys_wav/60.wav"
     play_wav(path)
     
