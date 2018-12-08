@@ -1,5 +1,6 @@
 $(document).ready(function() {
-
+	
+	// ----------- PIANO CODE -----------
 	var WHITE_KEYS = [1,3,5,6,8,10,12,13,15,17,18,20,22,24,25];
 
 	var SOUND_DICT = {1:'C',2:'C#',3:'D',4:'E♭',5:'E',6:'F',7:'F#',8:'G',9:'A♭',10:'A',11:'B♭',12:'B',13:'C',
@@ -159,6 +160,11 @@ $(document).ready(function() {
 
 
 	keyboardsize(0);
+
+
+	// ----------- BUTTON CODE -----------
+
+	
 
 	$('#clear').click(function() {
 		$('#song').text('');
