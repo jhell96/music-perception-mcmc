@@ -12,8 +12,6 @@ $(document).ready(function() {
 		if (document.activeElement.nodeName == 'TEXTAREA') return;
 		if (document.activeElement.nodeName == 'INPUT') return;
 
-		console.log(e.keyCode)
-
 		switch(e.keyCode) {
 			case 65: press(1); break; //a
 			case 87: press(2); break; //w
@@ -61,9 +59,11 @@ $(document).ready(function() {
 	}
 
 	function play(x) {
-		var note = document.getElementById(SOUND_DICT[x]);
- 		note.currentTime=0;
- 		note.play(); 
+		// var note = document.getElementById(SOUND_DICT[x]);
+ 	// 	note.currentTime=0;
+ 	// 	note.play(); 
+ 		x = parseInt(x)+39;
+ 		document.getElementById(x.toString()).play();
 	}
 
 	function removeSelection() {
@@ -117,20 +117,20 @@ $(document).ready(function() {
 		for (var x=1; x<=25; x++) unselectkey(x);
 	}
 
-	function cdur() { press(1); press(5); press(8); }
-	function ddur() { press(3); press(7); press(10); }
-	function edur() { press(5); press(9); press(12); }
-	function fdur() { press(6); press(10); press(13); }
-	function gdur() { press(8); press(12); press(15); }
-	function adur() { press(10); press(14); press(17); }
-	function bdur() { press(12); press(16); press(19); }
-	function cmol() { press(1); press(4); press(8); }
-	function dmol() { press(3); press(6); press(10); }
-	function emol() { press(5); press(8); press(12); }
-	function fmol() { press(6); press(9); press(13); }
-	function gmol() { press(8); press(11); press(15); }
-	function amol() { press(10); press(13); press(17); }
-	function bmol() { press(12); press(15); press(19); }
+	// function cdur() { press(1); press(5); press(8); }
+	// function ddur() { press(3); press(7); press(10); }
+	// function edur() { press(5); press(9); press(12); }
+	// function fdur() { press(6); press(10); press(13); }
+	// function gdur() { press(8); press(12); press(15); }
+	// function adur() { press(10); press(14); press(17); }
+	// function bdur() { press(12); press(16); press(19); }
+	// function cmol() { press(1); press(4); press(8); }
+	// function dmol() { press(3); press(6); press(10); }
+	// function emol() { press(5); press(8); press(12); }
+	// function fmol() { press(6); press(9); press(13); }
+	// function gmol() { press(8); press(11); press(15); }
+	// function amol() { press(10); press(13); press(17); }
+	// function bmol() { press(12); press(15); press(19); }
 
 
 	var currentSize = 2;
@@ -145,29 +145,15 @@ $(document).ready(function() {
 		for (var id in STYLE_DICT) {
 			$('#'+id).width(''+STYLE_DICT[id]*x+unit);
 		}
-	}
-
-
-/*	
-	var freqs = ["1/16", "1/8", "1/4", "1/2", "1"];
-  	var count = 0;
-  	function frequp() {
-	    if (count == 4) {
-	      count = 0;
-	    } else {
-	      count += 1;
-	    }
-	    $('#freq').text(freqs[count]);
-  	}*/
-	
+	}	
 
 	function loadPianoMusic() {	
-		var part1 = "<audio preload='auto' id='";
-		var part2 = "' src='http://www.agnes-bruckner.com/apronus_static/music-lessons/sounds/";
-		var part3 = ".mp3'></audio>";
+		var part1 = "<audio id=";
+		var part2 = " src=../keys_mp3/";
+		var part3 = ".mp3></audio>"
 
-		var ids = ["c", "cis", "d", "es", "e", "f", "fis", "g", "gis", "a", "b", "h", "c1",
-			 "cis1", "d1", "es1", "e1", "f1", "fis1", "g1", "gis1", "a1", "b1", "h1", "c2"];
+		var ids = ["40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54",
+					"55", "56", "57", "58"];
 
 		var pianoMusicHtml = "";
 
@@ -189,24 +175,6 @@ $(document).ready(function() {
 		unselectall();
 	});
 
-	$('#freq').click(function() {
-		frequp();
-	});
-	$('#116').click(function() {
-		$('#freq').text('1/16');
-	});
-	$('#18').click(function() {
-		$('#freq').text('1/8');
-	});
-	$('#14').click(function() {
-		$('#freq').text('1/4');
-	});
-	$('#12').click(function() {
-		$('#freq').text('1/2');
-	});
-	$('#1').click(function() {
-		$('#freq').text('1');
-	});
 
 	keyboardsize(0);
 
