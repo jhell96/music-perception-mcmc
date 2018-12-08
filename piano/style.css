@@ -5,6 +5,10 @@ body {
 	font-family: Verdana; 
 }
 
+#skill-level {
+	margin-bottom: 30px;
+}
+
 #structure { 
 	margin:0; 
 	border-collapse: collapse; 

@@ -1,12 +1,13 @@
 $(document).ready(function() {
 
 	var WHITE_KEYS = [1,3,5,6,8,10,12,13,15,17,18,20,22,24,25];
-	var FREQ_DICT = {"1/4":"1","1/8":"0.5","1/16":"0.25","1/2":"2","1":"4"};
 	var SOUND_DICT = {1:'c',2:'cis',3:'d',4:'es',5:'e',6:'f',7:'fis',8:'g',9:'gis',10:'a',11:'b',12:'h',13:'c1',
 		14:'cis1',15:'d1',16:'es1',17:'e1',18:'f1',19:'fis1',20:'g1',21:'gis1',22:'a1',23:'b1',24:'h1',25:'c2'};
 	var STYLE_DICT = {'to1':14,'l2':9,'r2':5,'to3':14,'l4':5,'r4':9,'to5':14,'to6':13,'l7':11,'r7':3,'to8':13,'l9':7,
 		'r9':7,'to10':13,'l11':3,'r11':11,'to12':13,'to13':14,'l14':9,'r14':5,'to15':14,'l16':5,'r16':9,'to17':14,
 		'to18':13,'l19':11,'r19':3,'to20':13,'l21':7,'r21':7,'to22':13,'l23':3,'r23':11,'to24':13,'to25':23,};
+	var MIDI_DICT = {65:1, 87:2, 83:3, 69:4, 68:5, 70:6, 84:7, 71:8, 89:9, 72:10, 85:11, 74:12, 75:13, 79:14, 76:15, 
+		80:16, 186:17, 222:18, 219:19}
 
 	function keywaspressed(e) {
 		if (document.activeElement.nodeName == 'TEXTAREA') return;
@@ -33,14 +34,10 @@ $(document).ready(function() {
 			case 222: press(18); break; //'
 			case 219: press(19); break; //[
 		}
-
 	}
 
 	function play(x) {
-		// var note = document.getElementById(SOUND_DICT[x]);
- 	// 	note.currentTime=0;
- 	// 	note.play(); 
- 		x = parseInt(x)+39;
+ 		x = parseInt(x)+59;
  		document.getElementById(x.toString()).play();
 	}
 
@@ -67,9 +64,11 @@ $(document).ready(function() {
 	 	}
 	}
 
+	var trials = []
 	function press(x) {
 		$('#song').text(function(index, text) {
-			return text+(parseInt(x)+39)+",";
+			trials.push("[" + Object.keys(heldKeys)+"]")
+			return trials.toString()
 		});
 
 		$('#frequencies').text(function(index, text) {
@@ -83,6 +82,11 @@ $(document).ready(function() {
 
 
 	function unselectkey(x) {
+		y = parseInt(x)+59;
+		document.getElementById(y.toString()).pause();
+		document.getElementById(y.toString()).currentTime = 0;
+
+
 		if (WHITE_KEYS.indexOf(x) != -1) {
 	 		$('#bo'+x).css("background-color", "white");
 			$('#to'+x).css("background-color", "white");
@@ -90,12 +94,7 @@ $(document).ready(function() {
 	 	} else {
 	 		$('#l'+x).css("background-color", "black");
 			$('#r'+x).css("background-color", "black");
-
 		}
-	}
-
-	function unselectall() {
-		for (var x=1; x<=25; x++) unselectkey(x);
 	}
 
 	var currentSize = 2;
@@ -114,11 +113,11 @@ $(document).ready(function() {
 
 	function loadPianoMusic() {	
 		var part1 = "<audio id=";
-		var part2 = " src=../keys_mp3/";
-		var part3 = ".mp3></audio>"
+		var part2 = " src=../resources/keys_wav/";
+		var part3 = ".wav></audio>"
 
-		var ids = ["40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54",
-					"55", "56", "57", "58"];
+		var ids = ["60", "61", "62", "63", "64", "65", "66", "67", "68", "69", "70", "71", "72", "73", "74",
+					"75", "76", "77", "78"];
 
 		var pianoMusicHtml = "";
 
@@ -133,24 +132,24 @@ $(document).ready(function() {
 	loadPianoMusic();
 
 
-	var lastState;
 	var heldKeys = {};
 
 	$('#idbody').keydown(function(e) {
-		if (lastState && lastState.keyCode == e.keyCode) {
-			return;
+		console.log("down")
+		if (e.keyCode in heldKeys) {
+			return false;
 		}
-		lastState = e;
 		heldKeys[e.keyCode]=true;
 		keywaspressed(e);
 	});
 
 	$("#idbody").keyup(function() {
-		lastState = null;
+		console.log("up")
+		lastState=null;
 		delete heldKeys[event.keyCode];
-		unselectall();
+		id = MIDI_DICT[event.keyCode];
+		unselectkey(id);
 	});
-
 
 	keyboardsize(0);
 
