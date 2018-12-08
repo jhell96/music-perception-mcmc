@@ -32,30 +32,8 @@ $(document).ready(function() {
 			case 186: press(17); break; //;
 			case 222: press(18); break; //'
 			case 219: press(19); break; //[
-			// case 173: press(19); break; //-
-			// case 219: press(20); break; //[
-			// case 187: press(21); break;
-			// case 61: press(21); break; //=
-			// case 221: press(22); break; //]
-			// case 8: press(23); return false; //backspace
-			// case 13: press(24); break; //enter
-			// case 220: press(25); break; //\
-
-			// case 90: cdur(); break; //z
-			// case 88: ddur(); break; //x
-			// case 67: edur(); break; //c
-			// case 86: fdur(); break; //v
-			// case 66: gdur(); break; //b
-			// case 78: adur(); break; //n
-			// case 77: bdur(); break; //m
-			// case 65: cmol(); break; //a
-			// case 83: dmol(); break; //s
-			// case 68: emol(); break; //d
-			// case 70: fmol(); break; //f
-			// case 71: gmol(); break; //g
-			// case 72: amol(); break; //h
-			// case 74: bmol(); break; 		
 		}
+
 	}
 
 	function play(x) {
@@ -79,12 +57,13 @@ $(document).ready(function() {
 
 	  		bottomHalf.style.backgroundColor = 'lightblue';
 	  		topHalf.style.backgroundColor = 'lightblue';
+
 	 	} else {
 	  		var leftHalf = document.getElementById('l'+x);
 	  		var rightHalf = document.getElementById('r'+x);
 
-			leftHalf.style.backgroundColor = 'darkgray';
-			rightHalf.style.backgroundColor = 'darkgray';
+			leftHalf.style.backgroundColor = 'lightblue';
+			rightHalf.style.backgroundColor = 'lightblue';
 	 	}
 	}
 
@@ -107,31 +86,17 @@ $(document).ready(function() {
 		if (WHITE_KEYS.indexOf(x) != -1) {
 	 		$('#bo'+x).css("background-color", "white");
 			$('#to'+x).css("background-color", "white");
+
 	 	} else {
 	 		$('#l'+x).css("background-color", "black");
 			$('#r'+x).css("background-color", "black");
+
 		}
 	}
 
 	function unselectall() {
 		for (var x=1; x<=25; x++) unselectkey(x);
 	}
-
-	// function cdur() { press(1); press(5); press(8); }
-	// function ddur() { press(3); press(7); press(10); }
-	// function edur() { press(5); press(9); press(12); }
-	// function fdur() { press(6); press(10); press(13); }
-	// function gdur() { press(8); press(12); press(15); }
-	// function adur() { press(10); press(14); press(17); }
-	// function bdur() { press(12); press(16); press(19); }
-	// function cmol() { press(1); press(4); press(8); }
-	// function dmol() { press(3); press(6); press(10); }
-	// function emol() { press(5); press(8); press(12); }
-	// function fmol() { press(6); press(9); press(13); }
-	// function gmol() { press(8); press(11); press(15); }
-	// function amol() { press(10); press(13); press(17); }
-	// function bmol() { press(12); press(15); press(19); }
-
 
 	var currentSize = 2;
 	function keyboardsize(x) {
@@ -167,88 +132,38 @@ $(document).ready(function() {
 
 	loadPianoMusic();
 
+
+	var lastState;
+	var heldKeys = {};
+
 	$('#idbody').keydown(function(e) {
+		if (lastState && lastState.keyCode == e.keyCode) {
+			return;
+		}
+		lastState = e;
+		heldKeys[e.keyCode]=true;
 		keywaspressed(e);
 	});
 
 	$("#idbody").keyup(function() {
+		lastState = null;
+		delete heldKeys[event.keyCode];
 		unselectall();
 	});
 
 
 	keyboardsize(0);
 
-	[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25].forEach(function(k) {
-		$('#bo'+k).mousedown(function() {
-			press(k);
-		});
-		$('#bo'+k).mouseup(function() {
-			unselectkey(k);
-		});
-		$('#to'+k).mousedown(function() {
-			press(k);
-		});
-		$('#to'+k).mouseup(function() {
-			unselectkey(k);
-		});
-		$('#r'+k).mousedown(function() {
-			press(k);
-		});
-		$('#r'+k).mouseup(function() {
-			unselectkey(k);
-		});
-		$('#l'+k).mousedown(function() {
-			press(k);
-		});
-		$('#l'+k).mouseup(function() {
-			unselectkey(k);
-		});
-	});
-
 	$('#clear').click(function() {
 		$('#frequencies').text('');
 		$('#song').text('');
-	});
-
-	$('#delete').click(function() {
-		$('#frequencies').text(function(index, text) {
-			text = text.substring(0, text.length-1);
-
-			var n = text.lastIndexOf(",");
-			return text.substring(0,n+1);
-		});
-		$('#song').text(function(index, text) {
-			text = text.substring(0, text.length-1);
-
-			var n = text.lastIndexOf(",");
-			return text.substring(0,n+1);
-		});
-	});
-
-
-	$('#playback').click(async function() {
-		var notes = $('#song').text().split(',');
-		var frequencies = $('#frequencies').text().split(',');
-		notes.pop();
-		frequencies.pop();
-
-		var count = 0;
-		var current = 0;
-		notes.forEach(function(note) {
-			setTimeout(function () { 
-				play(parseInt(note)-27)}, current);
-			current += 500*parseFloat(frequencies[count]);
-			count ++;
-
-		});
-
 	});
 
 
 	$('#save').click(function() {
 		console.log("trying save");
 		var xhttp;
-		var author = "Libby Aiello";
+		var author = "Christie Hong";
 		var songName = "Simple";
 		xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function() {
