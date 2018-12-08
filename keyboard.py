@@ -45,7 +45,7 @@ class Keyboard():
                 self.audio[pitch] = np.concatenate([wav_data[sound_start_idx:], np.zeros(sound_start_idx)])
 
     def play_current_state(self):
-        sound = self.get_current_state_audio()
+        sound = self.get_state_audio()
         play_wav_data(sound)
 
     def play_pitch(self, pitch):
@@ -54,19 +54,34 @@ class Keyboard():
         else:
             print("Pitch {} not in range".format(pitch))
 
-    def get_current_state_audio(self):
+    def get_state_audio(self, state=None):
+        if state is None:
+            state = self.state
+
         data_len = len(list(self.audio.values())[0])
         sound = np.zeros(data_len)
-        for i, s in enumerate(self.state):
+        for i, s in enumerate(state):
             if s == 1:
                 sound += self.audio[self.starting_pitch+i]
 
         return sound
 
-    def plot_state_chroma(self):
-        sound = self.get_current_state_audio()
+    def get_state_chroma(self, state=None):
+        if state is None:
+            state = self.state
+        sound = self.get_state_audio(state)
+        return self.get_audio_chroma(sound)
+
+    def get_audio_chroma(self, sound):
+        return fmp.make_chromagram(sound, 22050, 4096, 4096//2, gamma=1.0)
+
+    def plot_state_chroma(self, state=None):
+        if state is None:
+            state = self.state
         plt.title("Pitches: {}".format([x+self.starting_pitch for x in np.where(np.array(self.state) == 1)[0]]))
-        plt.imshow(fmp.make_chromagram(sound, 22050, 4096, 4096//2, gamma=1.0), origin='lower', aspect='auto')
+        plt.imshow(self.get_state_chroma(state), origin='lower', aspect='auto')
+        plt.xlabel("Time (downsampled)")
+        plt.ylabel("Musical Pitch")
         plt.show()
 
     def plot_pitch(self, pitch):
@@ -78,9 +93,22 @@ class Keyboard():
         else:
             print("Pitch {} not in range".format(pitch))
 
+    def score(self, song_audio, state=None):
+        if state is None:
+            state = self.state
+
+        state_chroma = self.get_state_chroma(state)
+        song_chroma = self.get_audio_chroma(song_audio)
+
+        perfect_score = np.linalg.norm(np.dot(song_chroma.T, song_chroma), ord='nuc') + 1e-10
+        state_score = np.linalg.norm(np.dot(state_chroma.T, song_chroma), ord='nuc')
+
+        return state_score/perfect_score
+
+
 if __name__ == '__main__':
     k = Keyboard()
     k.toggle_note(60)
     k.toggle_note(64)
     k.toggle_note(67)
-    k.play_current_state()
+    k.plot_state_chroma()
