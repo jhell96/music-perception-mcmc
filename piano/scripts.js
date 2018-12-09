@@ -185,18 +185,21 @@ $(document).ready(function() {
 			}
 			vectors.push(vector)
 		}
-		// var xhttp;
-		// var author = "Christie Hong";
-		// var songName = "Simple";
-		// xhttp = new XMLHttpRequest();
-		// xhttp.onreadystatechange = function() {
-		//   if (this.readyState == 4 && this.status == 200) {
-		//     console.log(this.responseText);
-		//   }
-		// };
-		// xhttp.open("GET", "https://iesc-s2.mit.edu/6S08dev/abertics/final/sb1.py?ADD=1&name="+songName+
-		// 		"&author="+author+"&notes="+$('#song').text()+"&frequencies="+$('#frequencies').text(), true);
-		// xhttp.send();
+
+
+		
+		var xhttp;
+		var author = "Christie Hong";
+		var songName = "Simple";
+		xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+		  if (this.readyState == 4 && this.status == 200) {
+		    console.log(this.responseText);
+		  }
+		};
+		xhttp.open("GET", "https://iesc-s2.mit.edu/6S08dev/abertics/final/sb1.py?ADD=1&name="+songName+
+				"&author="+author+"&notes="+$('#song').text()+"&frequencies="+$('#frequencies').text(), true);
+		xhttp.send();
 
 	});
 
