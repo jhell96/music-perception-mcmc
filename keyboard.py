@@ -97,13 +97,19 @@ class Keyboard():
         if state is None:
             state = self.state
 
-        state_chroma = self.get_state_chroma(state)
-        song_chroma = self.get_audio_chroma(song_audio)
+        # state_chroma = self.get_state_chroma(state)
+        # song_chroma = self.get_audio_chroma(song_audio)
 
-        perfect_score = np.linalg.norm(np.dot(song_chroma.T, song_chroma), ord='nuc') + 1e-10
-        state_score = np.linalg.norm(np.dot(state_chroma.T, song_chroma), ord='nuc')
+        # perfect_score = np.linalg.norm(np.dot(song_chroma.T, song_chroma), ord='nuc') + 1e-10
+        # state_score = np.linalg.norm(np.dot(state_chroma.T, song_chroma), ord='nuc')
 
-        return state_score/perfect_score
+        # return state_score/perfect_score
+
+        state_vec = np.sum(self.get_state_chroma(state), axis=1)
+        song_vec = np.sum(self.get_audio_chroma(song_audio), axis=1)
+        state_vec /= np.linalg.norm(state_vec)
+        song_vec /= np.linalg.norm(song_vec)
+        return np.dot(state_vec, song_vec)
 
 
 if __name__ == '__main__':
@@ -111,4 +117,9 @@ if __name__ == '__main__':
     k.toggle_note(60)
     k.toggle_note(64)
     k.toggle_note(67)
+    # audio = load_wav("resources/keys_wav/60.wav")
+    # s = k.score(audio)
+    # print(s)
+    # print(np.exp(s))
+    # k.play_current_state()
     k.plot_state_chroma()
