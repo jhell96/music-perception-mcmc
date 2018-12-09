@@ -3,8 +3,8 @@ $(document).ready(function() {
 	// ----------- PIANO CODE -----------
 	var WHITE_KEYS = [1,3,5,6,8,10,12,13,15,17,18,20,22,24,25];
 
-	var SOUND_DICT = {1:'C',2:'C#',3:'D',4:'E♭',5:'E',6:'F',7:'F#',8:'G',9:'A♭',10:'A',11:'B♭',12:'B',13:'C',
-		14:'C#',15:'D',16:'E♭',17:'E',18:'F',19:'F#'};
+	var SOUND_DICT = {1:'C',2:'C#',3:'D',4:'E♭',5:'E',6:'F',7:'F#',8:'G',9:'A♭',10:'A',11:'B♭',12:'B',13:'1C',
+		14:'1C#',15:'1D',16:'1E♭',17:'1E',18:'1F',19:'1F#'};
 
 	var STYLE_DICT = {'to1':14,'l2':9,'r2':5,'to3':14,'l4':5,'r4':9,'to5':14,'to6':13,'l7':11,'r7':3,'to8':13,'l9':7,
 		'r9':7,'to10':13,'l11':3,'r11':11,'to12':13,'to13':14,'l14':9,'r14':5,'to15':14,'l16':5,'r16':9,'to17':14,
@@ -164,7 +164,7 @@ $(document).ready(function() {
 
 	// ----------- BUTTON CODE -----------
 
-	
+
 
 	$('#clear').click(function() {
 		$('#song').text('');
@@ -173,11 +173,13 @@ $(document).ready(function() {
 	
 	$('#save').click(function() {
 		var vectors = [] // holds 20len vectors for each trial
+		console.log(trials)
 		for (var i=0; i<trials.length; i++) {
 			vector = []
 			for (var x=0; x<20; x++){
 				vector.push(0)
 			}
+
 
 			for (var j=0; j<trials[i].length; j++) {
 				vector[trials[i][j]-1] = 1
