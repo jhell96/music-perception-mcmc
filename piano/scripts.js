@@ -116,7 +116,7 @@ $(document).ready(function() {
 
 	function loadPianoMusic() {	
 		var part1 = "<audio id=";
-		var part2 = " src=../resources/keys_wav/";
+		var part2 = " src=resources/keys_wav/";
 		var part3 = ".wav></audio>"
 
 		var ids = ["60", "61", "62", "63", "64", "65", "66", "67", "68", "69", "70", "71", "72", "73", "74",
@@ -173,7 +173,6 @@ $(document).ready(function() {
 	
 	$('#save').click(function() {
 		var vectors = [] // holds 20len vectors for each trial
-		console.log(trials)
 		for (var i=0; i<trials.length; i++) {
 			vector = []
 			for (var x=0; x<20; x++){
@@ -186,6 +185,18 @@ $(document).ready(function() {
 			}
 			vectors.push(vector)
 		}
+		// var xhttp;
+		// var author = "Christie Hong";
+		// var songName = "Simple";
+		// xhttp = new XMLHttpRequest();
+		// xhttp.onreadystatechange = function() {
+		//   if (this.readyState == 4 && this.status == 200) {
+		//     console.log(this.responseText);
+		//   }
+		// };
+		// xhttp.open("GET", "https://iesc-s2.mit.edu/6S08dev/abertics/final/sb1.py?ADD=1&name="+songName+
+		// 		"&author="+author+"&notes="+$('#song').text()+"&frequencies="+$('#frequencies').text(), true);
+		// xhttp.send();
 
 	});
 
