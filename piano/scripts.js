@@ -1,5 +1,12 @@
+Storage.prototype.setObj = function(key, obj) {
+    return this.setItem(key, JSON.stringify(obj))
+};
+Storage.prototype.getObj = function(key) {
+    return JSON.parse(this.getItem(key))
+};
+
 $(document).ready(function() {
-	
+
 	// ----------- PIANO CODE -----------
 	var WHITE_KEYS = [1,3,5,6,8,10,12,13,15,17,18,20,22,24,25];
 
@@ -164,46 +171,78 @@ $(document).ready(function() {
 
 	// ----------- BUTTON CODE -----------
 
-
-
 	$('#clear').click(function() {
 		$('#song').text('');
 	});
 
-	
+
+	// user_tests = []
 	$('#save').click(function() {
+		console.log(trials)
 		var vectors = [] // holds 20len vectors for each trial
 		for (var i=0; i<trials.length; i++) {
 			vector = []
 			for (var x=0; x<20; x++){
 				vector.push(0)
 			}
-
-
 			for (var j=0; j<trials[i].length; j++) {
 				vector[trials[i][j]-1] = 1
 			}
 			vectors.push(vector)
 		}
 
+		var pages = window.location.pathname.split("/");
+		localStorage.setObj(pages[pages.length-1], vectors);
 
-		
-		var xhttp;
-		var author = "Christie Hong";
-		var songName = "Simple";
-		xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-		  if (this.readyState == 4 && this.status == 200) {
-		    console.log(this.responseText);
-		  }
-		};
-		xhttp.open("GET", "https://iesc-s2.mit.edu/6S08dev/abertics/final/sb1.py?ADD=1&name="+songName+
-				"&author="+author+"&notes="+$('#song').text()+"&frequencies="+$('#frequencies').text(), true);
-		xhttp.send();
+		if (pages[pages.length-1] === "test5.html") {
+			$('#submit').prop('disabled', false)
+		}
 
 	});
 
+	$('#submit').click(function() {
+		test1=localStorage.getObj("test1.html")
+		test2=localStorage.getObj("test2.html")
+		test3=localStorage.getObj("test3.html")
+		test4=localStorage.getObj("test4.html")
+		test5=localStorage.getObj("test5.html")
+		console.log(test5)
 
+		$.ajax({
+            type: "POST",
+            url: "post_data",
+            data: 'test1='+test1+'&test2='+test2+'&test3='+test3+'&test4='+test4+'&test5='+test5
+        }).then(function(data) {
+            console.log(data);
+        });
+
+	})
+
+	// Get the modal
+	var modal = document.getElementById('myModal');
+
+	// Get the button that opens the modal
+	var btn = document.getElementById("submit");
+
+	// Get the <span> element that closes the modal
+	var span = document.getElementsByClassName("close")[0];
+
+	// When the user clicks on the button, open the modal 
+	btn.onclick = function() {
+	  modal.style.display = "block";
+	}
+
+	// When the user clicks on <span> (x), close the modal
+	span.onclick = function() {
+	  modal.style.display = "none";
+	}
+
+	// When the user clicks anywhere outside of the modal, close it
+	window.onclick = function(event) {
+	  if (event.target == modal) {
+	    modal.style.display = "none";
+	  }
+}
 
 });
 

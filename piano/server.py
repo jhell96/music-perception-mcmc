@@ -36,23 +36,38 @@ def test5():
 
 @app.route('/scripts.js')
 def js():
-    js_file = '/scripts.js'
+    js_file = 'scripts.js'
     return send_file(js_file)
 
-# @app.route ('/style.css')
-# def css():
-#     cs_file = '/style.css'
-#     return send_file(cs_file)
+@app.route ('/style.css')
+def css():
+    cs_file = 'style.css'
+    return send_file(cs_file)
 
 @app.route('/resources/<path:path>')
-def resources():
-    return send_from_directory('/resources/', path)
+def resources(path):
+    return send_from_directory('resources/', path)
 
 @app.route('/post_data', methods=['GET', 'POST'])
 def store_tests():
-    if request.method == 'POST':
-        for value in request.values:
-            test_data = request.values[value]
+    test1 = request.values.get('test1')
+    test2 = request.values.get('test2')
+    test3 = request.values.get('test3')
+    test4 = request.values.get('test4')
+    test5 = request.values.get('test5')
+
+    print (test1)
+    print (test2)
+    print (test3)
+    print (test4)
+    print (test5)
+
+
+
+    return jsonify({
+        'message':'ok'
+        })
+
 
 
 

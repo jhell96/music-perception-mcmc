@@ -89,16 +89,17 @@ body {
 }
 */
 .button {
+	background-color: #378de5;
 	-moz-box-shadow:inset 0px 1px 0px 0px #bbdaf7;
 	-webkit-box-shadow:inset 0px 1px 0px 0px #bbdaf7;
 	box-shadow:inset 0px 1px 0px 0px #bbdaf7;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #79bbff), color-stop(1, #378de5));
-	background:-moz-linear-gradient(top, #79bbff 5%, #378de5 100%);
-	background:-webkit-linear-gradient(top, #79bbff 5%, #378de5 100%);
-	background:-o-linear-gradient(top, #79bbff 5%, #378de5 100%);
-	background:-ms-linear-gradient(top, #79bbff 5%, #378de5 100%);
-	background:linear-gradient(to bottom, #79bbff 5%, #378de5 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#79bbff', endColorstr='#378de5',GradientType=0);
+	/* background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #79bbff), color-stop(1, #378de5)); */
+	/* background:-moz-linear-gradient(top, #79bbff 5%, #378de5 100%); */
+	/* background:-webkit-linear-gradient(top, #79bbff 5%, #378de5 100%); */
+	/* background:-o-linear-gradient(top, #79bbff 5%, #378de5 100%); */
+	/* background:-ms-linear-gradient(top, #79bbff 5%, #378de5 100%); */
+	/* background:linear-gradient(to bottom, #79bbff 5%, #378de5 100%); */
+	/* filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#79bbff', endColorstr='#378de5',GradientType=0); */
 	background-color:#79bbff;
 	-moz-border-radius:6px;
 	-webkit-border-radius:6px;
@@ -113,31 +114,13 @@ body {
 	padding:6px 24px;
 	text-decoration:none;
 	text-shadow:0px 1px 0px #528ecc;
-}
+} 
 
-/*
-#delete {
-	width:55px;
-	height:25px;
-	border-color:blue;
-	border-style: solid;
-	word-wrap: break-word;
+.button:disabled {
+	color: white;
+	cursor: default;
+	background-color:  gray;
 }
-#playback {
-	width:80px;
-	height:25px;
-	border-color:blue;
-	border-style: solid;
-	word-wrap: break-word;
-}
-
-#save {
-	width:40px;
-	height:25px;
-	border-color:blue;
-	border-style: solid;
-	word-wrap: break-word;
-}*/
 
 nav { 
 	line-height: 2; 
@@ -207,4 +190,42 @@ table td.b {
     border-left:1px solid black; 
     border-right:1px solid black; 
     border-bottom:1px solid black; 
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
