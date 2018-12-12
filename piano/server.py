@@ -5,9 +5,6 @@ import random
 
 app = Flask(__name__)
 
-help_queue = []
-checkoff_queue = []
-
 
 @app.route('/')
 def index():
@@ -50,19 +47,44 @@ def resources(path):
 
 @app.route('/post_data', methods=['GET', 'POST'])
 def store_tests():
+    skill_level = request.values.get('skill-level')
+
+    test1_plays = request.values.get('test1-plays')
     test1 = request.values.get('test1')
+
+    test2_plays = request.values.get('test2-plays')
     test2 = request.values.get('test2')
+
+    test3_plays = request.values.get('test3-plays')
     test3 = request.values.get('test3')
+
+    test4_plays = request.values.get('test4-plays')
     test4 = request.values.get('test4')
+
+    test5_plays = request.values.get('test5-plays')
     test5 = request.values.get('test5')
 
+    print ("Skill Level:", skill_level)
+
+    print ("TEST 1:")
+    print (test1_plays)
     print (test1)
+
+    print ("TEST 2:")
+    print (test2_plays)
     print (test2)
+
+    print ("TEST 3:")
+    print (test3_plays)
     print (test3)
+
+    print ("TEST 4:")
+    print (test4_plays)
     print (test4)
+
+    print ("TEST 5:")
+    print (test5_plays)
     print (test5)
-
-
 
     return jsonify({
         'message':'ok'

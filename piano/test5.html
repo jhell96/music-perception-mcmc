@@ -21,8 +21,10 @@
     <header style='margin-bottom:1em;'>
       <h1 style='margin-bottom:0; margin-top:0;'>Piano Interface</h1>
       <h3> Test 5 </h3>
+
       <audio id="sound5" src="resources/tests/test5.mp4" preload="auto"></audio>
-      <button class="button" onclick="document.getElementById('sound5').play();">Play Me</button>
+      <button class="button" id="test-sound" onclick="document.getElementById('sound5').play();">Play Me</button>
+      
     </header>
 
     <div id='pianoessence'>
@@ -112,7 +114,6 @@
 
   <!-- Modal content -->
   <div class="modal-content">
-    <span class="close">&times;</span>
     <p>Thank you for partaking in our study, you may close the tab at this time!</p>
   </div>
 

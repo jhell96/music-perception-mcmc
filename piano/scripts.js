@@ -6,7 +6,6 @@ Storage.prototype.getObj = function(key) {
 };
 
 $(document).ready(function() {
-
 	// ----------- PIANO CODE -----------
 	var WHITE_KEYS = [1,3,5,6,8,10,12,13,15,17,18,20,22,24,25];
 
@@ -75,6 +74,7 @@ $(document).ready(function() {
 	 	}
 	}
 
+	var listen_vector = []
 
 	var trials = []
 	var interface_trials = []
@@ -201,6 +201,14 @@ $(document).ready(function() {
 	});
 
 	$('#submit').click(function() {
+		skill_level=localStorage.getObj("skill-level")
+
+		test1_plays=localStorage.getObj("test-sound-plays-test1.html")
+		test2_plays=localStorage.getObj("test-sound-plays-test2.html")
+		test3_plays=localStorage.getObj("test-sound-plays-test3.html")
+		test4_plays=localStorage.getObj("test-sound-plays-test4.html")
+		test5_plays=localStorage.getObj("test-sound-plays-test5.html")
+
 		test1=localStorage.getObj("test1.html")
 		test2=localStorage.getObj("test2.html")
 		test3=localStorage.getObj("test3.html")
@@ -211,7 +219,12 @@ $(document).ready(function() {
 		$.ajax({
             type: "POST",
             url: "post_data",
-            data: 'test1='+test1+'&test2='+test2+'&test3='+test3+'&test4='+test4+'&test5='+test5
+            data: 'skill-level='+ skill_level +
+            	'&test1-plays='+test1_plays+'&test1='+test1 +
+            	'&test2-plays='+test2_plays+'&test2='+test2+
+            	'&test3-plays='+test3_plays+'&test3='+test3+
+            	'&test4-plays='+test4_plays+'&test4='+test4+
+            	'&test5-plays='+test5_plays+'&test5='+test5
         }).then(function(data) {
             console.log(data);
         });
@@ -228,21 +241,32 @@ $(document).ready(function() {
 	var span = document.getElementsByClassName("close")[0];
 
 	// When the user clicks on the button, open the modal 
-	btn.onclick = function() {
+	$("#submit").click(function() {
 	  modal.style.display = "block";
-	}
-
-	// When the user clicks on <span> (x), close the modal
-	span.onclick = function() {
-	  modal.style.display = "none";
-	}
+	});
 
 	// When the user clicks anywhere outside of the modal, close it
 	window.onclick = function(event) {
 	  if (event.target == modal) {
 	    modal.style.display = "none";
 	  }
-}
+	}
+
+
+	// ----------- MUSICAL TRAINING LEVEL CODE -----------
+	$("#skill-level").click(function() {
+		console.log("hi")
+		localStorage.setObj("skill-level", document.querySelector('input[name=skill]:checked').value)
+		console.log(localStorage)
+	})
+
+	// ----------- PLAYING TEST SOUND CODE -----------
+	test_plays = []
+	$("#test-sound").click(function() {
+		test_plays.push(trials.length)
+		var pages = window.location.pathname.split("/");
+		localStorage.setObj("test-sound-plays-"+pages[pages.length-1], test_plays)
+	})
 
 });
 
