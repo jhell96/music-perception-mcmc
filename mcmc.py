@@ -27,8 +27,10 @@ class MCMC_MH():
         num_accepted = 0
         for t in tqdm(range(self.max_iterations)):
             states = self.keyboard.possible_next_states()
-            new_idx = np.random.randint(len(states))
-            proposal_state = states[new_idx]
+
+            state_dist = self.proposal_dist(states)
+            proposal_idx = np.random.choice(len(states), 1, p=state_dist)[0]
+            proposal_state = states[proposal_idx]
 
             current_score = self.keyboard.score(audio)
             proposal_score = self.keyboard.score(audio, state=proposal_state)
@@ -44,12 +46,16 @@ class MCMC_MH():
                 self.history.append(proposal_state)
                 num_accepted += 1
 
+    def proposal_dist(self, states):
+        return [1/len(states) for i in states]
+
 
 if __name__ == '__main__':
-    mh = MCMC_MH(100000)
-    audio = load_wav("resources/keys_wav/60.wav")
+    mh = MCMC_MH(10000)
+    audio = load_wav("piano/resources/tests/test1.wav")
     mh.estimate(audio)
     print("Final state: " + str(mh.keyboard.state))
     mh.keyboard.play_current_state()
     s = np.sum(np.array(mh.history[-10:]), axis=0)
     print(s)
+    print(np.argmax(s)+mh.keyboard.starting_pitch)
