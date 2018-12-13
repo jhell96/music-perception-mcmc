@@ -64,34 +64,42 @@ def store_tests():
     test5_plays = request.values.get('test5-plays')
     test5 = request.values.get('test5')
 
-    print ("Skill Level:", skill_level)
+    if (skill_level and 
+        test1 and test1_plays and 
+        test2 and test2_plays and 
+        test3 and test3_plays and 
+        test4 and test4_plays and
+        test5 and test5_plays):
 
-    print ("TEST 1:")
-    print (test1_plays)
-    print (test1)
+        with open('data/raw/trials.txt', 'a') as f:
+            f.write(skill_level)
+            f.write('\n')
+            f.write(test1)
+            f.write('\n')
+            f.write(test1_plays)
+            f.write('\n')
+            f.write(test2)
+            f.write('\n')
+            f.write(test2_plays)
+            f.write('\n')
+            f.write(test3)
+            f.write('\n')
+            f.write(test3_plays)
+            f.write('\n')
+            f.write(test4)
+            f.write('\n')
+            f.write(test4_plays)
+            f.write('\n')
+            f.write(test5)
+            f.write('\n')
+            f.write(test5_plays)
+            f.write('\n')
+            f.write("-"*100)
 
-    print ("TEST 2:")
-    print (test2_plays)
-    print (test2)
-
-    print ("TEST 3:")
-    print (test3_plays)
-    print (test3)
-
-    print ("TEST 4:")
-    print (test4_plays)
-    print (test4)
-
-    print ("TEST 5:")
-    print (test5_plays)
-    print (test5)
 
     return jsonify({
         'message':'ok'
         })
-
-
-
 
 
 if __name__ == "__main__":
