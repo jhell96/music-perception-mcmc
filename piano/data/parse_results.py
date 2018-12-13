@@ -2,11 +2,17 @@ import numpy as np
 
 
 def note_string_to_array(note_string, num_notes=20):
+    if note_string == 'null':
+        return np.array([0]*num_notes)
+
     lst = note_string.split(",")
     return np.array([[int(x) for x in lst[i:i+num_notes]] for i in range(0, len(lst), num_notes)])
 
 
 def play_string_to_array(play_string):
+    if play_string == 'null':
+        return np.array([])
+
     return np.array([int(x) for x in play_string.split(",")])
 
 
@@ -19,8 +25,8 @@ def parse_results(file='raw/trials.txt'):
 
     results = []
     for i, trial in enumerate(res):
-        if len(trial) == 12:
-            skill_level, test1, test1_plays, test2, test2_plays, test3, test3_plays, test4, test4_plays, test5, test5_plays = trial[:-1]
+        if len(trial[1:-1]) == 11:
+            skill_level, test1, test1_plays, test2, test2_plays, test3, test3_plays, test4, test4_plays, test5, test5_plays = trial[1:-1]
 
             skill_level = int(skill_level)
             test1 = note_string_to_array(test1)
@@ -55,6 +61,7 @@ def parse_results(file='raw/trials.txt'):
 
 class Trial():
     def __init__(self, skill_level):
+        self.skill_level = skill_level
         self.tests = []
         self.test_plays = []
 
@@ -65,3 +72,5 @@ if __name__ == '__main__':
     test = 0
     example = trials[person].tests[test]
     print("Person: {}, Test: {} \n {}".format(person, test, example))
+
+    print(trials[0].skill_level)

@@ -72,6 +72,7 @@ def store_tests():
         test5 and test5_plays):
 
         with open('data/raw/trials.txt', 'a') as f:
+            f.write('\n')
             f.write(skill_level)
             f.write('\n')
             f.write(test1)
