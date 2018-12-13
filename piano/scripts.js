@@ -89,6 +89,9 @@ $(document).ready(function() {
 	var pages = window.location.pathname.split("/");
 	page = pages[pages.length-1]
 	function press(x) {
+		if (trials.length > 10) {
+			$("#not-found").css('visibility', 'visible');
+		}
 		$('#song').text(function(index, text) {
 			interface_trials.push("[" + Object.keys(heldKeys)+"]")
 			trials.push(Object.keys(heldKeysMidi))
@@ -313,12 +316,9 @@ $(document).ready(function() {
 		console.log(localStorage)
 	})
 
-	// // When the user clicks anywhere outside of the modal, close it
-	// window.onclick = function(event) {
-	//   if (event.target == modal) {
-	//     modal.style.display = "none";
-	//   }
-	// }
+	if (trials.length > 1000) {
+
+	}
 
 
 	// ----------- MUSICAL TRAINING LEVEL CODE -----------
