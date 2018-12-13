@@ -6,6 +6,14 @@ Storage.prototype.getObj = function(key) {
 };
 
 $(document).ready(function() {
+	console.log(localStorage)
+
+	var test1 = ["14"]
+	var test2 = ["6", "9"]
+	var test3 = ["1", "5", "8"]
+	var test4 = ["5", "11", "13"]
+	var test5 = ["4", "11", "15"]
+
 	// ----------- PIANO CODE -----------
 	var WHITE_KEYS = [1,3,5,6,8,10,12,13,15,17,18,20,22,24,25];
 
@@ -78,16 +86,78 @@ $(document).ready(function() {
 
 	var trials = []
 	var interface_trials = []
+	var pages = window.location.pathname.split("/");
+	page = pages[pages.length-1]
 	function press(x) {
 		$('#song').text(function(index, text) {
 			interface_trials.push("[" + Object.keys(heldKeys)+"]")
 			trials.push(Object.keys(heldKeysMidi))
 			return interface_trials.toString()
 		});
-	 	
+		
+		correctAnswer();
 	 	removeSelection();
 	 	play(x);
 	 	selectkey(x);  
+	}
+
+	function correctAnswer() {
+		correct_answer = true;
+
+		if (page === "test1.html") {
+			for (var i=0; i<trials[trials.length-1].length; i++) {
+				if (!test1.includes(trials[trials.length-1][i])) {
+					correct_answer = false;
+				}
+			}
+			if (correct_answer) {
+				$("#correct").css('visibility', 'visible');
+			}
+		}
+
+		else if (page === "test2.html") {
+			for (var i=0; i<trials[trials.length-1].length; i++) {
+				if (!test2.includes(trials[trials.length-1][i])) {
+					correct_answer = false;
+				}
+			}
+			if (correct_answer && trials[trials.length-1].length === test2.length) {
+				$("#correct").css('visibility', 'visible');
+			}
+		}
+
+		else if (page === "test3.html") {
+			for (var i=0; i<trials[trials.length-1].length; i++) {
+				if (!test3.includes(trials[trials.length-1][i])) {
+					correct_answer = false;
+				}
+			}
+			if (correct_answer && trials[trials.length-1].length === test3.length) {
+				$("#correct").css('visibility', 'visible');
+			}
+		}
+
+		else if (page === "test4.html") {
+			for (var i=0; i<trials[trials.length-1].length; i++) {
+				if (!test4.includes(trials[trials.length-1][i])) {
+					correct_answer = false;
+				}
+			}
+			if (correct_answer && trials[trials.length-1].length === test4.length) {
+				$("#correct").css('visibility', 'visible');
+			}
+		}
+
+		else if (page === "test5.html") {
+			for (var i=0; i<trials[trials.length-1].length; i++) {
+				if (!test5.includes(trials[trials.length-1][i])) {
+					correct_answer = false;
+				}
+			}
+			if (correct_answer && trials[trials.length-1].length === test5.length) {
+				$("#correct").css('visibility', 'visible');
+			}
+		}
 	}
 
 
@@ -170,13 +240,6 @@ $(document).ready(function() {
 
 
 	// ----------- BUTTON CODE -----------
-
-	$('#clear').click(function() {
-		$('#song').text('');
-	});
-
-
-	// user_tests = []
 	$('#save').click(function() {
 		console.log(trials)
 		var vectors = [] // holds 20len vectors for each trial
@@ -245,12 +308,17 @@ $(document).ready(function() {
 	  modal.style.display = "block";
 	});
 
-	// When the user clicks anywhere outside of the modal, close it
-	window.onclick = function(event) {
-	  if (event.target == modal) {
-	    modal.style.display = "none";
-	  }
-	}
+	$("#clear").click(function() {
+		localStorage.clear();
+		console.log(localStorage)
+	})
+
+	// // When the user clicks anywhere outside of the modal, close it
+	// window.onclick = function(event) {
+	//   if (event.target == modal) {
+	//     modal.style.display = "none";
+	//   }
+	// }
 
 
 	// ----------- MUSICAL TRAINING LEVEL CODE -----------
