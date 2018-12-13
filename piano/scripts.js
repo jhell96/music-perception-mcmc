@@ -9,7 +9,7 @@ $(document).ready(function() {
 	console.log(localStorage)
 
 	var test1 = ["14"]
-	var test2 = [65, 68]
+	var test2 = ["6", "9"]
 	var test3 = [60, 64, 67]
 	var test4 = [64, 70, 72]
 	var test5 = [63, 70, 74]
@@ -121,7 +121,7 @@ $(document).ready(function() {
 					correct_answer = false;
 				}
 			}
-			if (correct_answer) {
+			if (correct_answer && trials[trials.length-1].length === test2.length) {
 				$("#correct").css('visibility', 'visible');
 			}
 		}
@@ -132,7 +132,7 @@ $(document).ready(function() {
 					correct_answer = false;
 				}
 			}
-			if (correct_answer) {
+			if (correct_answer && trials[trials.length-1].length === test3.length) {
 				$("#correct").css('visibility', 'visible');
 			}
 		}
@@ -143,7 +143,7 @@ $(document).ready(function() {
 					correct_answer = false;
 				}
 			}
-			if (correct_answer) {
+			if (correct_answer && trials[trials.length-1].length === test4.length) {
 				$("#correct").css('visibility', 'visible');
 			}
 		}
@@ -154,7 +154,7 @@ $(document).ready(function() {
 					correct_answer = false;
 				}
 			}
-			if (correct_answer) {
+			if (correct_answer && trials[trials.length-1].length === test5.length) {
 				$("#correct").css('visibility', 'visible');
 			}
 		}
