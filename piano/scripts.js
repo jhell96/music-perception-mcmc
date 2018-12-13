@@ -10,9 +10,9 @@ $(document).ready(function() {
 
 	var test1 = ["14"]
 	var test2 = ["6", "9"]
-	var test3 = [60, 64, 67]
-	var test4 = [64, 70, 72]
-	var test5 = [63, 70, 74]
+	var test3 = ["1", "5", "8"]
+	var test4 = ["5", "11", "13"]
+	var test5 = ["4", "11", "15"]
 
 	// ----------- PIANO CODE -----------
 	var WHITE_KEYS = [1,3,5,6,8,10,12,13,15,17,18,20,22,24,25];
