@@ -89,7 +89,7 @@ $(document).ready(function() {
 	var pages = window.location.pathname.split("/");
 	page = pages[pages.length-1]
 	function press(x) {
-		if (trials.length > 10) {
+		if (trials.length > 1000) {
 			$("#not-found").css('visibility', 'visible');
 		}
 		$('#song').text(function(index, text) {
@@ -316,9 +316,6 @@ $(document).ready(function() {
 		console.log(localStorage)
 	})
 
-	if (trials.length > 1000) {
-
-	}
 
 
 	// ----------- MUSICAL TRAINING LEVEL CODE -----------
