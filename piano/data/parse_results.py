@@ -1,5 +1,8 @@
 import numpy as np
+import requests
 
+
+RESULTS_URL = 'http://mitcompcogsci.pythonanywhere.com/results'
 
 def note_string_to_array(note_string, num_notes=20):
     if note_string == 'null':
@@ -16,7 +19,14 @@ def play_string_to_array(play_string):
     return np.array([int(x) for x in play_string.split(",")])
 
 
-def parse_results(file='raw/trials.txt'):
+def parse_results(file='raw/trials.txt', web_refresh=True):
+
+    # pulls results from website
+    if web_refresh:
+        r = requests.get(RESULTS_URL)
+        with open(file, 'w') as f:
+            f.write(r.text)
+
     results_string = None
     with open(file, 'r') as f:
         results_string = f.read()
@@ -66,7 +76,7 @@ class Trial():
         self.test_plays = []
 
 if __name__ == '__main__':
-    trials = parse_results()
+    trials = parse_results(web_refresh=True)
 
     person = 0
     test = 0

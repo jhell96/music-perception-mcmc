@@ -6,44 +6,61 @@ import random
 app = Flask(__name__)
 
 
+RESULTS_PATH = 'data/raw/trials.txt'
+
+
 @app.route('/')
 def index():
     index_file = 'index.html'
     return send_file(index_file)
 
+
 @app.route('/test1.html')
 def test1():
     return send_file('test1.html')
+
 
 @app.route('/test2.html')
 def test2():
     return send_file('test2.html')
 
+
 @app.route('/test3.html')
 def test3():
     return send_file('test3.html')
+
 
 @app.route('/test4.html')
 def test4():
     return send_file('test4.html')
 
+
 @app.route('/test5.html')
 def test5():
     return send_file('test5.html')
+
 
 @app.route('/scripts.js')
 def js():
     js_file = 'scripts.js'
     return send_file(js_file)
 
-@app.route ('/style.css')
+
+@app.route('/style.css')
 def css():
     cs_file = 'style.css'
     return send_file(cs_file)
 
+
 @app.route('/resources/<path:path>')
 def resources(path):
     return send_from_directory('resources/', path)
+
+
+@app.route('/results', methods=['GET'])
+def results():
+    return send_file(RESULTS_PATH)
+
 
 @app.route('/post_data', methods=['GET', 'POST'])
 def store_tests():
@@ -71,7 +88,7 @@ def store_tests():
         test4 and test4_plays and
         test5 and test5_plays):
 
-        with open('data/raw/trials.txt', 'a') as f:
+        with open(RESULTS_PATH, 'a') as f:
             f.write('\n')
             f.write(skill_level)
             f.write('\n')
