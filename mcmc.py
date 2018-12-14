@@ -10,7 +10,7 @@ class MCMC_MH():
         self.keyboard = Keyboard()
         self.history = []
 
-    def estimate(self, audio):
+    def estimate(self, audio, sensitivity=100.0):
         # ALG:
         #   initialize
         #   generate candidate from g(x' | x_t)
@@ -22,7 +22,8 @@ class MCMC_MH():
         ######################################################
 
         # init
-        self.keyboard.state = [1]*len(self.keyboard.state)
+        self.keyboard.state = [0]*len(self.keyboard.state)
+        # self.keyboard.toggle_note(73)
 
         num_accepted = 0
         for t in tqdm(range(self.max_iterations)):
@@ -35,10 +36,13 @@ class MCMC_MH():
             current_score = self.keyboard.score(audio)
             proposal_score = self.keyboard.score(audio, state=proposal_state)
 
-            current_prob = current_score
-            proposal_prob = proposal_score
+            # print(current_score, proposal_score)
+            score_distribution = self.keyboard.softmax([current_score, proposal_score], scale=sensitivity)
 
-            acceptance_probability = min(1, (proposal_prob/current_prob))
+            # print(score_distribution, self.keyboard.state, proposal_state)
+            current_prob, proposal_prob = score_distribution
+
+            acceptance_probability = min(1, (proposal_prob/(current_prob + 1e-5)))
             u = np.random.uniform(0, 1)
 
             if (u <= acceptance_probability):
@@ -49,13 +53,40 @@ class MCMC_MH():
     def proposal_dist(self, states):
         return [1/len(states) for i in states]
 
+    def run_test(self, test_num):
+        lookback = 1000
+
+        audio_file = "piano/resources/tests/test{}.wav".format(test_num)
+        audio = load_wav(audio_file)
+        print("Running MCMC...")
+        self.estimate(audio)
+
+        s = np.sum(np.array(self.history[-min(lookback, self.max_iterations):]), axis=0)
+
+        pitches = np.arange(self.keyboard.starting_pitch, self.keyboard.starting_pitch+self.keyboard.num_notes)
+        probabilities = s/np.sum(s)
+
+        print("Pitch Probabilities from last {} iterations:".format(lookback))
+        print("Pitch Prob")
+        for pitch, prob in zip(pitches, probabilities):
+            print("{}   {}".format(pitch, round(prob, 3)))
+
+        print("")
+        print("Top Note: " + str(np.argmax(s)+self.keyboard.starting_pitch))
+        print("Final state: " + str(self.keyboard.state))
+        print("Pitches:     " + str(pitches))
+        print("")
+        print("Playing original audio...")
+        print("")
+        play_wav(audio_file)
+        print("")
+        print("Playing estimated audio...")
+        print("")
+        self.keyboard.play_current_state()
+
 
 if __name__ == '__main__':
-    mh = MCMC_MH(10000)
-    audio = load_wav("piano/resources/tests/test1.wav")
-    mh.estimate(audio)
-    print("Final state: " + str(mh.keyboard.state))
-    mh.keyboard.play_current_state()
-    s = np.sum(np.array(mh.history[-10:]), axis=0)
-    print(s)
-    print(np.argmax(s)+mh.keyboard.starting_pitch)
+    num_iters = 10000
+    mh = MCMC_MH(num_iters)
+    mh.run_test(5)
+

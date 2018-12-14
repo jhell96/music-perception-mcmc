@@ -20,6 +20,11 @@ class Keyboard():
         else:
             self.load_audio_files()
 
+        # if we notice we have the same chunk of audio as previously computed, return
+        # the saved chromagram to speed up simulation.
+        self.audio_cached_chroma = {}
+
+        # precompute the chroma of certain pitches, so we don't have to do on-the-fly
         self.pitch_to_chroma_energy = {}
         self.compute_chroma_energies()
 
@@ -84,12 +89,15 @@ class Keyboard():
         sound = self.get_state_audio(state)
         return self.get_audio_chroma(sound)
 
-    def get_state_chroma_energy_norm(self, state=None, efficient=True):
+    def get_state_chroma_energy(self, state=None, norm=True, efficient=True):
         if state is None:
             state = self.state
 
-
-        # the efficient method is less "accurate" to what actually synthesizing
+        # The efficient method simply sums the energies from notes individually, instead
+        # of rendering them to an audio file and computing the chroma that way.
+        #
+        #
+        # the "efficient" method is less "accurate" to what actually synthesizing
         # the notes would produce, but is pretty close. Differences are numerical
         # computing errors and a few other specific things to how chromagrams are created
         # but these two methods are theoretically the same: 
@@ -108,26 +116,45 @@ class Keyboard():
         else:
             energy = np.sum(self.get_state_chroma(state), axis=1)
 
-        energy /= np.linalg.norm(energy)
+        if norm:
+            energy /= (np.linalg.norm(energy) + 1e-5)
+        
         return energy
 
     def get_audio_chroma(self, sound):
         window_length = 4096
         hop_size = window_length//2
-        log_comp = 1
+        log_comp = 1.0
         normalize = True
-        return fmp.make_chromagram(sound, 
+
+        sound_bit = tuple(sound[:min(5000, int(len(sound)*0.2))])
+
+        # check if we have it in our cache
+        if sound_bit in self.audio_cached_chroma:
+            return self.audio_cached_chroma[sound_bit]
+        else:
+            chroma = fmp.make_chromagram(sound, 
                                     self.sample_rate, 
                                     window_length, 
                                     hop_size, 
                                     gamma=log_comp, 
                                     normalize=normalize)
+            # otherwise cache the chroma
+            self.audio_cached_chroma[sound_bit] = chroma
+        return chroma
 
     def plot_state_chroma(self, state=None):
         if state is None:
             state = self.state
         plt.title("Pitches: {}".format([x+self.starting_pitch for x in np.where(np.array(self.state) == 1)[0]]))
         plt.imshow(self.get_state_chroma(state), origin='lower', aspect='auto')
+        plt.xlabel("Time (downsampled)")
+        plt.ylabel("Musical Pitch")
+        plt.show()
+
+    def plot_audio_chroma(self, audio):
+        plt.title("Audio Chromagram")
+        plt.imshow(self.get_audio_chroma(audio), origin='lower', aspect='auto')
         plt.xlabel("Time (downsampled)")
         plt.ylabel("Musical Pitch")
         plt.show()
@@ -145,9 +172,16 @@ class Keyboard():
         if state is None:
             state = self.state
 
-        state_vec = self.get_state_chroma_energy_norm(state)
+        state_vec = self.get_state_chroma_energy(state, norm=False)
         song_vec = np.sum(self.get_audio_chroma(song_audio), axis=1)
-        song_vec /= np.linalg.norm(song_vec)
+
+        # subtract the mean energy
+        state_vec -= np.mean(state_vec)
+        song_vec -= np.mean(song_vec)
+
+        song_vec /= (np.linalg.norm(song_vec) + 1e-5)
+        state_vec /= (np.linalg.norm(state_vec) + 1e-5)
+
         return np.dot(state_vec, song_vec)
 
     def compute_chroma_energies(self):
@@ -158,6 +192,12 @@ class Keyboard():
             energy = np.sum(self.get_state_chroma(state), axis=1)
             energy /= np.linalg.norm(energy)
             self.pitch_to_chroma_energy[pitch] = energy
+
+    def softmax(self, x, scale=10.0):
+        """Compute softmax values for each sets of scores in x."""
+        x = np.array(x)
+        e_x = np.exp(x*scale)
+        return e_x / e_x.sum()
 
 
 if __name__ == '__main__':
@@ -171,14 +211,13 @@ if __name__ == '__main__':
     # print(np.exp(s))
     # k.play_current_state()
 
-    # audio = load_wav("piano/resources/tests/test1.wav")
-    audio = load_wav("piano/resources/keys_wav/73.wav")
+    audio = load_wav("piano/resources/tests/test1.wav")
+    # audio = load_wav("piano/resources/keys_wav/73.wav")
+    # k.plot_audio_chroma(audio)
 
-    k.toggle_note(60)
-    for t in range(k.starting_pitch+1, k.starting_pitch + k.num_notes):
+    for t in range(k.starting_pitch, k.starting_pitch + k.num_notes):
 
+        k.toggle_note(t)
         res = k.score(audio)
         print(res, t)
-
-        k.toggle_note(t-1)
         k.toggle_note(t)
