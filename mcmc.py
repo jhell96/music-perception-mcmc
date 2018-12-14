@@ -58,6 +58,18 @@ class MCMC_MH():
 
         audio_file = "piano/resources/tests/test{}.wav".format(test_num)
         audio = load_wav(audio_file)
+
+        with open("piano/resources/tests/correct_notes.txt", 'r') as f:
+            correct = f.read()
+
+        print("Getting correct answer...")
+        correct_state = [0]*self.keyboard.num_notes
+        for t in [x.split(":") for x in correct.split('\n')]:
+            if t[0] == 'test{}'.format(test_num):
+                for p in t[1].split(','):
+                    correct_state[int(p)-self.keyboard.starting_pitch] = 1
+
+
         print("Running MCMC...")
         self.estimate(audio)
 
@@ -73,8 +85,9 @@ class MCMC_MH():
 
         print("")
         print("Top Note: " + str(np.argmax(s)+self.keyboard.starting_pitch))
-        print("Final state: " + str(self.keyboard.state))
-        print("Pitches:     " + str(pitches))
+        print("Final state:   " + str(self.keyboard.state))
+        print("Correct State: " + str(correct_state))
+        print("Pitches:       " + str(pitches))
         print("")
         print("Playing original audio...")
         print("")
@@ -88,5 +101,5 @@ class MCMC_MH():
 if __name__ == '__main__':
     num_iters = 10000
     mh = MCMC_MH(num_iters)
-    mh.run_test(5)
+    mh.run_test(3)
 
