@@ -89,8 +89,10 @@ $(document).ready(function() {
 	var pages = window.location.pathname.split("/");
 	page = pages[pages.length-1]
 	function press(x) {
-		if (trials.length > 1000) {
+		if (trials.length > 200) {
 			$("#not-found").css('visibility', 'visible');
+			$("#save").css("background-color", "#79bbff");
+			$("#save").css("pointer-events", "all");
 		}
 		$('#song').text(function(index, text) {
 			interface_trials.push("[" + Object.keys(heldKeys)+"]")
@@ -115,6 +117,8 @@ $(document).ready(function() {
 			}
 			if (correct_answer) {
 				$("#correct").css('visibility', 'visible');
+				$("#save").css("background-color", "#79bbff");
+				$("#save").css("pointer-events", "all");
 			}
 		}
 
@@ -126,6 +130,8 @@ $(document).ready(function() {
 			}
 			if (correct_answer && trials[trials.length-1].length === test2.length) {
 				$("#correct").css('visibility', 'visible');
+				$("#save").css("background-color", "#79bbff");
+				$("#save").css("pointer-events", "all");
 			}
 		}
 
@@ -137,6 +143,8 @@ $(document).ready(function() {
 			}
 			if (correct_answer && trials[trials.length-1].length === test3.length) {
 				$("#correct").css('visibility', 'visible');
+				$("#save").css("background-color", "#79bbff");
+				$("#save").css("pointer-events", "all");
 			}
 		}
 
@@ -148,6 +156,8 @@ $(document).ready(function() {
 			}
 			if (correct_answer && trials[trials.length-1].length === test4.length) {
 				$("#correct").css('visibility', 'visible');
+				$("#save").css("background-color", "#79bbff");
+				$("#save").css("pointer-events", "all");
 			}
 		}
 
@@ -159,6 +169,8 @@ $(document).ready(function() {
 			}
 			if (correct_answer && trials[trials.length-1].length === test5.length) {
 				$("#correct").css('visibility', 'visible');
+				$("#save").css("background-color", "#79bbff");
+				$("#save").css("pointer-events", "all");
 			}
 		}
 	}

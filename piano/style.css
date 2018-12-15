@@ -24,6 +24,15 @@ body {
 	width:80vw;
 }
 
+#correct {
+    font-size: 25px;
+}
+
+#save {
+    pointer-events: none;
+    background-color: grey;
+}
+
 /* Dropdown Button */
 .dropbtn {
 	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #79bbff), color-stop(1, #378de5));
