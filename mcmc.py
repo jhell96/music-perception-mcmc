@@ -2,15 +2,19 @@ from keyboard import Keyboard
 import numpy as np
 from util import *
 from tqdm import tqdm
+import matplotlib.pyplot as plt
 
 
 class MCMC_MH():
-    def __init__(self, max_iterations):
+    def __init__(self, max_iterations, proposal_method='uniform', proposal_sensitivity=1000.0, similarity_sensitivity=100.0):
         self.max_iterations = max_iterations
         self.keyboard = Keyboard()
         self.history = []
+        self.proposal_method = proposal_method
+        self.proposal_sensitivity = proposal_sensitivity
+        self.similarity_sensitivity = similarity_sensitivity
 
-    def estimate(self, audio, sensitivity=100.0):
+    def estimate(self, audio):
         # ALG:
         #   initialize
         #   generate candidate from g(x' | x_t)
@@ -37,7 +41,7 @@ class MCMC_MH():
             proposal_score = self.keyboard.score(audio, state=proposal_state)
 
             # print(current_score, proposal_score)
-            score_distribution = self.keyboard.softmax([current_score, proposal_score], scale=sensitivity)
+            score_distribution = self.keyboard.softmax([current_score, proposal_score], scale=self.similarity_sensitivity)
 
             # print(score_distribution, self.keyboard.state, proposal_state)
             current_prob, proposal_prob = score_distribution
@@ -49,12 +53,46 @@ class MCMC_MH():
                 self.keyboard.state = proposal_state
                 self.history.append(proposal_state)
                 num_accepted += 1
+            else:
+                self.history.append(self.keyboard.state)
 
     def proposal_dist(self, states):
-        return [1/len(states) for i in states]
+        if self.proposal_method == 'uniform':
+            # Uniform dist:
+            return [1/len(states) for i in states]
+
+        if self.proposal_method == 'sim':
+            # Similarity dist
+
+            current_state = self.keyboard.state
+            curr_energy = self.keyboard.get_state_chroma_energy()
+            sim = []
+            for s in states:
+                energy = self.keyboard.get_state_chroma_energy(state=s)
+                sim.append(np.dot(curr_energy, energy))
+
+            dist = np.array(sim)/(sum(sim) + 1e-5)
+            dist = self.keyboard.softmax(dist, scale=self.proposal_sensitivity)
+            return dist
+
+    def plot_history(self, correct_state=None):
+        correct_state = list(map(lambda x: x*2, correct_state))
+        if correct_state:
+            out = self.history[:]
+            for i in range(int(max(1, 0.05*len(out)))):
+                out.append(correct_state)
+        else:
+            out = self.history
+
+        h = np.array(out)
+        plt.title("prop method: {}, prop_sen: {}, sim_sen: {}".format(self.proposal_method, self.proposal_sensitivity, self.similarity_sensitivity))
+        plt.imshow(h.T, origin='lower', aspect='auto')
+        plt.xlabel("Iteration")
+        plt.ylabel("Note")
+        plt.show()
 
     def run_test(self, test_num):
-        lookback = 1000
+        burn_in = 1000
 
         audio_file = "piano/resources/tests/test{}.wav".format(test_num)
         audio = load_wav(audio_file)
@@ -73,12 +111,13 @@ class MCMC_MH():
         print("Running MCMC...")
         self.estimate(audio)
 
-        s = np.sum(np.array(self.history[-min(lookback, self.max_iterations):]), axis=0)
+        cut = int(min(burn_in, 0.3 * self.max_iterations)) 
+        s = np.sum(np.array(self.history[cut:]), axis=0)
 
         pitches = np.arange(self.keyboard.starting_pitch, self.keyboard.starting_pitch+self.keyboard.num_notes)
         probabilities = s/np.sum(s)
 
-        print("Pitch Probabilities from last {} iterations:".format(lookback))
+        print("Pitch Probabilities")
         print("Pitch Prob")
         for pitch, prob in zip(pitches, probabilities):
             print("{}   {}".format(pitch, round(prob, 3)))
@@ -96,10 +135,33 @@ class MCMC_MH():
         print("Playing estimated audio...")
         print("")
         self.keyboard.play_current_state()
+        self.plot_history(correct_state)
+
 
 
 if __name__ == '__main__':
-    num_iters = 10000
-    mh = MCMC_MH(num_iters)
-    mh.run_test(3)
+
+    # number of iterations to run (normal values: 10 - 10,000)
+    num_iters = 1000
+
+    # proposal distribution method (normal values: 'uniform' or 'sim' for simliarity proposal)
+    # method = 'uniform'
+    method = 'sim'
+
+    # sets the sensitivity of how simliar we think any state is to a piece of audio
+    # normal values: 50 - 500
+    sim_sen = 120.0
+
+    # sets the sensitivity of how simliar we think our proposed state is to the current state
+    # normal values: 10 - 1,000
+    # ONLY ACTUALLY USED WHEN USING 'sim' METHOD
+    prop_sen = 20.0
+
+    # initialize mcmc
+    mh = MCMC_MH(num_iters, proposal_method=method, proposal_sensitivity=prop_sen, similarity_sensitivity=sim_sen)
+
+    # run test number 5
+    # will play audio and will generate a plot
+    # this uses
+    mh.run_test(4)
 
