@@ -9,7 +9,7 @@ if '3.5' in platform.python_version():
     import fmp
 
 if '3.6' in platform.python_version():
-    import fmp36
+    import fmp36 as fmp;
 
 # FMP is a library from class 21M.387 (Professor Egozy) to compute a chromagram
 
