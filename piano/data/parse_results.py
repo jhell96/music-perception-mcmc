@@ -38,7 +38,11 @@ def parse_results(file='raw/trials.txt', web_refresh=True):
         if len(trial[1:-1]) == 11:
             skill_level, test1, test1_plays, test2, test2_plays, test3, test3_plays, test4, test4_plays, test5, test5_plays = trial[1:-1]
 
-            skill_level = int(skill_level)
+            if skill_level == "null":
+                skill_level = -1
+            else:
+                skill_level=int(skill_level)
+
             test1 = note_string_to_array(test1)
             test2 = note_string_to_array(test2)
             test3 = note_string_to_array(test3)
@@ -78,7 +82,7 @@ class Trial():
 if __name__ == '__main__':
     trials = parse_results(web_refresh=True)
 
-    person = 0
+    person = 4
     test = 0
     example = trials[person].tests[test]
     print("Person: {}, Test: {} \n {}".format(person, test, example))
