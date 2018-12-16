@@ -3,7 +3,14 @@ from os.path import isfile, join
 from util import *
 import numpy as np
 import matplotlib.pyplot as plt
-import fmp 
+import platform
+
+if '3.5' in platform.python_version():
+    import fmp
+
+if '3.6' in platform.python_version():
+    import fmp36
+
 # FMP is a library from class 21M.387 (Professor Egozy) to compute a chromagram
 
 
