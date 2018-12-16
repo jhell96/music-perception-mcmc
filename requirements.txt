@@ -4,3 +4,4 @@ numpy==1.11.0
 tqdm==4.26.0
 Flask==0.12.2
 pyaudio==0.2.11
+ipython==6.5.0
