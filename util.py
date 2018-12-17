@@ -131,6 +131,20 @@ def get_directory_files(dirpath, file_ext=None):
     return [os.path.join(dirpath, f) for f in files if file_ext == None or f.endswith(file_ext)]
 
 
+def kl_div(p, q):
+    """Kullback-Leibler divergence D(P || Q) for discrete distributions
+    Parameters
+    ----------
+    p, q : array-like, dtype=float, shape=n
+    Discrete probability distributions.
+    """
+    p = np.asarray(p, dtype=np.float) + 1e-5
+    q = np.asarray(q, dtype=np.float) + 1e-5
+
+    return np.sum(p * np.log(p / q))
+
+
+
 if __name__ == '__main__':
     # path = "/home/josh/Music/cant_sleep_love_pentatonix.wav"
     path = "/home/josh/Documents/school/senior/6.804/project/music-perception-mcmc/resources/keys_wav/60.wav"

@@ -210,22 +210,23 @@ class Keyboard():
 
 if __name__ == '__main__':
     k = Keyboard()
-    # k.toggle_note(60)
-    # k.toggle_note(64)
-    # k.toggle_note(67)
+    k.toggle_note(60)
+    k.toggle_note(64)
+    k.toggle_note(67)
     # audio = load_wav("resources/keys_wav/60.wav")
     # s = k.score(audio)
     # print(s)
     # print(np.exp(s))
     # k.play_current_state()
+    k.plot_state_chroma()
 
-    audio = load_wav("piano/resources/tests/test1.wav")
-    # audio = load_wav("piano/resources/keys_wav/73.wav")
-    # k.plot_audio_chroma(audio)
+    audio = load_wav("piano/resources/tests/test3.wav")
+    # # audio = load_wav("piano/resources/keys_wav/73.wav")
+    k.plot_audio_chroma(audio)
 
-    for t in range(k.starting_pitch, k.starting_pitch + k.num_notes):
+    # for t in range(k.starting_pitch, k.starting_pitch + k.num_notes):
 
-        k.toggle_note(t)
-        res = k.score(audio)
-        print(res, t)
-        k.toggle_note(t)
+    #     k.toggle_note(t)
+    #     res = k.score(audio)
+    #     print(res, t)
+    #     k.toggle_note(t)

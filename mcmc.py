@@ -91,6 +91,13 @@ class MCMC_MH():
         plt.ylabel("Note")
         plt.show()
 
+    def get_dist(self):
+        burn_in = 100
+        cut = int(min(burn_in, 0.3 * self.max_iterations)) 
+        s = np.sum(np.array(self.history[cut:]), axis=0)
+        probabilities = s/np.sum(s)
+        return np.array(probabilities)
+
     def run_test(self, test_num):
         burn_in = 1000
 
