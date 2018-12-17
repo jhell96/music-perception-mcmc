@@ -157,7 +157,7 @@ if __name__ == '__main__':
 
     # sets the sensitivity of how simliar we think any state is to a piece of audio
     # normal values: 50 - 500
-    sim_sen = 120.0
+    sim_sen = 320.0
 
     # sets the sensitivity of how simliar we think our proposed state is to the current state
     # normal values: 10 - 1,000
