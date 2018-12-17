@@ -76,8 +76,8 @@ class MCMC_MH():
             return dist
 
     def plot_history(self, correct_state=None):
-        correct_state = list(map(lambda x: x*2, correct_state))
         if correct_state:
+            correct_state = list(map(lambda x: x*2, correct_state))
             out = self.history[:]
             for i in range(int(max(1, 0.05*len(out)))):
                 out.append(correct_state)
@@ -149,7 +149,7 @@ class MCMC_MH():
 if __name__ == '__main__':
 
     # number of iterations to run (normal values: 10 - 10,000)
-    num_iters = 1000
+    num_iters = 10000
 
     # proposal distribution method (normal values: 'uniform' or 'sim' for simliarity proposal)
     # method = 'uniform'
@@ -157,12 +157,12 @@ if __name__ == '__main__':
 
     # sets the sensitivity of how simliar we think any state is to a piece of audio
     # normal values: 50 - 500
-    sim_sen = 320.0
+    sim_sen = 120
 
     # sets the sensitivity of how simliar we think our proposed state is to the current state
     # normal values: 10 - 1,000
     # ONLY ACTUALLY USED WHEN USING 'sim' METHOD
-    prop_sen = 20.0
+    prop_sen = 50
 
     # initialize mcmc
     mh = MCMC_MH(num_iters, proposal_method=method, proposal_sensitivity=prop_sen, similarity_sensitivity=sim_sen)
