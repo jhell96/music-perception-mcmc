@@ -4,3 +4,6 @@ Using MCMC to estimate notes in audio, and comparing to human estimation of chor
 Experimentation link:
 
 http://mitcompcogsci.pythonanywhere.com/
+
+Writeup:
+[Paper](human-relative-pitch.pdf)
