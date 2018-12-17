@@ -6,7 +6,8 @@ from util import *
 
 PATH_TO_TRIALS = 'piano/data/raw/trials.txt'
 
-BEST_PARAMS = {1:(10.0, 1000.0),  2:(10.0, 27.83), 3:(16.9, 215.4), 4:(10.0, 215.44)}
+# musical experience tier : (sim, proposal)
+BEST_PARAMS = {0:(50.0, 100.0),  1:(10.0, 27.83), 2:(16.9, 215.4), 3:(10.0, 215.44)}
 
 def plot_sim(data):
     loss = []
@@ -121,17 +122,36 @@ def evaluation1(results, exp_level, test):
 		if test_subject.skill_level == exp_level:
 			count += 1
 			human_trials = test_subject.tests[test]
-			x = []
-			y = []
+			x_model = []
+			y_model = []
+			x_human = []
+			y_human = []
+
+			num_iters = int(len(human_trials)*(1.3))
+			mh = mcmc.MCMC_MH(num_iters, proposal_method='sim', proposal_sensitivity=BEST_PARAMS[test][1], similarity_sensitivity=BEST_PARAMS[test][0])
+			audio_file = "piano/resources/tests/test{}.wav".format(test+1)
+			audio = load_wav(audio_file)
+
+			mh.estimate(audio)
+			model_trials = mh.history[(num_iters-len(human_trials)):]
+
 			for trial in range(len(human_trials)):
-				pressed_keys = np.where(human_trials[trial]==1)[0]
-				for key in pressed_keys:
-					x.append(trial)
-					y.append(key)
+				human_keys = np.where(human_trials[trial]==1)[0]
+				for key in human_keys:
+					x_human.append(trial)
+					y_human.append(key)
+
+				model_keys = np.where(np.array(model_trials[trial])==1)[0]
+
+				for key in model_keys:
+					x_model.append(trial)
+					y_model.append(key)
+
 			plt.subplot(4, 2, count)
 			plt.xlabel("Trials")
 			plt.ylabel("Notes")
-			plt.plot(x, y, 'ro')
+			plt.plot(x_human, y_human, 'ro')
+			plt.plot(x_model, y_model, 'g^')
 	plt.show()
 
 
@@ -200,6 +220,8 @@ if __name__ == '__main__':
     
     # results = pr.parse_results(file=PATH_TO_TRIALS, web_refresh=True)
     # evaluation1(results, 1, 3)
+    results = pr.parse_results(file=PATH_TO_TRIALS, web_refresh=True)
+    evaluation1(results, 1, 1) #results, exp_level, test)
     # evaluation2(results, 2)
 
     level_1 = [round(x, 2) for x in get_trial_distribution(4, 1)]
