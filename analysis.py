@@ -17,23 +17,26 @@ exp_level int: experience level (1-4)
 test int: test number (0-4)
 MCMC: MCMC with the appropriate params corresponding to the exp_level
 '''
-def evaluation1(results, exp_level, test, MCMC):
+def evaluation1(results, exp_level, test):
 	count = 0
 	plt.figure(1)
 
-	for test_subject in results:
+	for i in range(len(results)):
+		test_subject = results[i]
+
 		if test_subject.skill_level == exp_level:
 			count += 1
-			trials = test_subject.tests[test]
+			human_trials = test_subject.tests[test]
 			x = []
 			y = []
-			for trial in range(len(trials)):
-				pressed_keys = np.where(trials[trial]==1)[0]
+			for trial in range(len(human_trials)):
+				pressed_keys = np.where(human_trials[trial]==1)[0]
 				for key in pressed_keys:
 					x.append(trial)
 					y.append(key)
 			plt.subplot(4, 2, count)
-			# plt.title("Subject " + str(count))
+			plt.xlabel("Trials")
+			plt.ylabel("Notes")
 			plt.plot(x, y, 'ro')
 	plt.show()
 
@@ -92,5 +95,5 @@ def evaluation2(results, exp_level):
 if __name__ == '__main__':
     # example of fetching results from the web, and storing in trials.txt
     results = pr.parse_results(file=PATH_TO_TRIALS, web_refresh=True)
-    # evaluation1(results, 1, 3)
+    evaluation1(results, 1, 3)
     # evaluation2(results, 2)
